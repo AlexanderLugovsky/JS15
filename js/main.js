@@ -34,10 +34,7 @@ function refreshButton() { //значения из масива в кнопки
 		}
 	}
 	if (checkWin() & count > 0) {
-		let audio = new Audio();
-		audio.preload = 'auto';
-		audio.src = '/wav/tada.wav';
-		audio.play();
+		alert("Победа на " + count + " ходу.")
 		disabeButton()
 	}
 }
