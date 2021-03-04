@@ -1,12 +1,11 @@
 // Ностальгия по C# :)
-// run when page load
- 
+
 var mas = [] //массив фишек (просто изврат как обьявляется в JS двумерный массив)
 var masWin = [] //массив выиграша (просто изврат как обьявляется в JS двумерный массив)
 var check0 = [] // положение 0
 var count = 0 //счетчик ходов
 
-function formload() {
+function formload() { // run when page load
 
 	//Заполняем мосивы фишек и побед
 	let k = 1
@@ -16,22 +15,12 @@ function formload() {
 		for (let o = 1; o < 5; o++) {
 			mas[i][o] = k
 			masWin[i][o] = k
-			console.log("i=" + i + " " + "o=" + o + " " + mas[i][o])
 			k++
 			if (k > 15) k = 0
 		}
 	}
-}
-function test() {
-	// let k = 16
-	// let p = document.getElementById("b5").innerHTML
-	console.log("----------------------------------------")
-	for (let i = 1; i < 5; i++) {
-		for (let o = 1; o < 5; o++) {
-
-			console.log("i=" + i + " " + "o=" + o + " " + mas[i][o])
-		}
-	}
+	refreshButton()
+	disabeButton()
 }
 
 function refreshButton() { //значения из масива в кнопки
@@ -39,12 +28,12 @@ function refreshButton() { //значения из масива в кнопки
 	let k = 1
 	for (let i = 1; i < 5; i++) {
 		for (let o = 1; o < 5; o++) {
-			document.getElementById("b" + k).innerText = mas[i][o]
-			// if (mas[i][o] == 0) document.getElementById("b" + k).innerHTML = '<button class="nul" onclick="b' + k + '()" id="b' + k + '"> 0 </button>' // на кнопке 0 не видно
+			document.getElementById("b" + k).outerHTML = '<button onclick="b' + k + '()" id="b' + k + '"> ' + mas[i][o] + ' </button>'
+			if (mas[i][o] == 0) document.getElementById("b" + k).outerHTML = '<button class="nul" onclick="b' + k + '()" id="b' + k + '"> 0 </button>' // на кнопке 0 не видно
 			k++
 		}
 	}
-	if (checkWin()) {
+	if (checkWin() & count > 0) {
 		let audio = new Audio();
 		audio.preload = 'auto';
 		audio.src = '/wav/tada.wav';
@@ -104,18 +93,34 @@ function checkWin() {
 			}
 		}
 	}
-	return false
+	return true
 }
 
 function shuffle() {
-	for (let i = 1; i < 10000; i++) {
+	for (let i = 1; i < 1000; i++) {
 		checkZero()
-		let rnd = Math.random(5)
-		if (rnd == 1) check0[1] = check0[1] + 1
-		if (rnd == 2) check0[1] = check0[1] - 1
-		if (rnd == 3) check0[2] = check0[2] + 1
-		if (rnd == 4) check0[2] = check0[2] - 1
-		move(check0[1], check0[2])
+		let rnd = Math.floor(Math.random() * 4 + 1)
+		if (rnd <= 1) {
+			x = check0[1] + 1
+			y = check0[2]
+		}
+		if (rnd == 2) {
+			x = check0[1] - 1
+			y = check0[2]
+		}
+		if (rnd == 3) {
+			y = check0[2] + 1
+			x = check0[1]
+		}
+		if (rnd >= 4) {
+			y = check0[2] - 1
+			x = check0[1]
+		}
+		if (y < 1) y = 2
+		if (y > 4) y = 3
+		if (x < 1) x = 2
+		if (x > 4) x = 3
+		move(x, y)
 	}
 	count = 0
 	refreshButton()
