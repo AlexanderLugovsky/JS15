@@ -1,0 +1,17 @@
+div {
+	margin: 0% 5% 0% 0%;
+	min-width: 100;
+}
+button {
+	height: 40px;
+	width: 40px;	
+}
+.shufle {
+	width: auto;
+}
+.span {
+	margin: 5px 0px 0px 0px;
+}
+.nul {
+	color: transparent ;
+}
