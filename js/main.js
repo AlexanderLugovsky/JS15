@@ -58,29 +58,52 @@ function checkZero() { //позиция 0
 		}
 	}
 }
-function move(x, y) { //ставим цифру где ноль
+function moveold(x, y) {
 	checkZero()
 	if (x == check0[1] & y == check0[2] + 1) { // 
-		mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] + 1]
-		mas[check0[1]][check0[2] + 1] = 0
-		count++
-	}
-	if (x == check0[1] & y == check0[2] - 1) {
-		mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] - 1]
-		mas[check0[1]][check0[2] - 1] = 0
-		count++
-	}
-	if (x == check0[1] + 1 & y == check0[2]) {
-		mas[check0[1]][check0[2]] = mas[check0[1] + 1][check0[2]]
-		mas[check0[1] + 1][check0[2]] = 0
-		count++
-	}
-	if (x == check0[1] - 1 & y == check0[2]) {
-		mas[check0[1]][check0[2]] = mas[check0[1] - 1][check0[2]]
-		mas[check0[1] - 1][check0[2]] = 0
-		count++
-	}
+	mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] + 1]
+	mas[check0[1]][check0[2] + 1] = 0
+	count++
+}
+if (x == check0[1] & y == check0[2] - 1) {
+	mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] - 1]
+	mas[check0[1]][check0[2] - 1] = 0
+	count++
+}
+if (x == check0[1] + 1 & y == check0[2]) {
+	mas[check0[1]][check0[2]] = mas[check0[1] + 1][check0[2]]
+	mas[check0[1] + 1][check0[2]] = 0
+	count++
+}
+if (x == check0[1] - 1 & y == check0[2]) {
+	mas[check0[1]][check0[2]] = mas[check0[1] - 1][check0[2]]
+	mas[check0[1] - 1][check0[2]] = 0
+	count++
+}
+checkZero()
+}
+
+function move(x, y) { //ставим цифру где ноль
 	checkZero()
+	//еси ноли рядом
+	let x0 = check0[1]
+	let y0 = check0[2]
+
+
+	//еси ноли дальше по линии
+	for (let i = -3; i < 4; i++) {
+		if (x0 + i > 0 & x == x0 + i & y == y0) { // 
+			let pred = x0
+			for (let o = x0; o <= x; o++) {
+				mas[o][y0] = mas[pred][y0]
+				pred = o
+
+			}
+			count++
+			checkZero()
+			return
+		}
+	}
 }
 function checkWin() {
 	for (let i = 1; i < 5; i++) {
@@ -94,7 +117,7 @@ function checkWin() {
 }
 
 function shuffle() {
-	for (let i = 1; i < 1000; i++) {
+	for (let i = 1; i < 5; i++) {
 		checkZero()
 		let rnd = Math.floor(Math.random() * 4 + 1)
 		if (rnd <= 1) {
@@ -117,7 +140,7 @@ function shuffle() {
 		if (y > 4) y = 3
 		if (x < 1) x = 2
 		if (x > 4) x = 3
-		move(x, y)
+		moveold(x, y)
 	}
 	count = 0
 	refreshButton()
