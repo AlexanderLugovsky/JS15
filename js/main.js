@@ -58,30 +58,6 @@ function checkZero() { //позиция 0
 		}
 	}
 }
-function moveold(x, y) {
-	checkZero()
-	if (x == check0[1] & y == check0[2] + 1) { // 
-	mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] + 1]
-	mas[check0[1]][check0[2] + 1] = 0
-	count++
-}
-if (x == check0[1] & y == check0[2] - 1) {
-	mas[check0[1]][check0[2]] = mas[check0[1]][check0[2] - 1]
-	mas[check0[1]][check0[2] - 1] = 0
-	count++
-}
-if (x == check0[1] + 1 & y == check0[2]) {
-	mas[check0[1]][check0[2]] = mas[check0[1] + 1][check0[2]]
-	mas[check0[1] + 1][check0[2]] = 0
-	count++
-}
-if (x == check0[1] - 1 & y == check0[2]) {
-	mas[check0[1]][check0[2]] = mas[check0[1] - 1][check0[2]]
-	mas[check0[1] - 1][check0[2]] = 0
-	count++
-}
-checkZero()
-}
 
 function move(x, y) { //ставим цифру где ноль
 	checkZero()
@@ -90,20 +66,39 @@ function move(x, y) { //ставим цифру где ноль
 	let y0 = check0[2]
 
 
-	//еси ноли дальше по линии
-	for (let i = -3; i < 4; i++) {
-		if (x0 + i > 0 & x == x0 + i & y == y0) { // 
-			let pred = x0
-			for (let o = x0; o <= x; o++) {
-				mas[o][y0] = mas[pred][y0]
-				pred = o
-
+	if (x == x0) {
+		if (y0 > y) {
+			for (let i = y0; i > y; i--) {
+				mas[x0][i] = mas[x0][i - 1]
 			}
+			mas[x][y] = 0
 			count++
-			checkZero()
-			return
+		}
+		if (y0 < y) {
+			for (let i = y0; i < y; i++) {
+				mas[x0][i] = mas[x0][i + 1]
+			}
+			mas[x][y] = 0
+			count++
 		}
 	}
+	if (y == y0) {
+		if (x0 > x) {
+			for (let i = x0; i > x; i--) {
+				mas[i][y0] = mas[i - 1][y0]
+			}
+			mas[x][y] = 0
+			count++
+		}
+		if (x0 < x) {
+			for (let i = x0; i < x; i++) {
+				mas[i][y0] = mas[i + 1][y0]
+			}
+			mas[x][y] = 0
+			count++
+		}
+	}
+	checkZero()
 }
 function checkWin() {
 	for (let i = 1; i < 5; i++) {
@@ -140,7 +135,7 @@ function shuffle() {
 		if (y > 4) y = 3
 		if (x < 1) x = 2
 		if (x > 4) x = 3
-		moveold(x, y)
+		move(x, y)
 	}
 	count = 0
 	refreshButton()
