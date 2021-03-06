@@ -54,6 +54,7 @@ function checkZero() { //позиция 0
 			if (mas[i][o] == 0) {
 				check0[1] = i
 				check0[2] = o
+				return
 			}
 		}
 	}
@@ -61,7 +62,7 @@ function checkZero() { //позиция 0
 
 function move(x, y) { //ставим цифру где ноль
 	checkZero()
-	//еси ноли рядом
+    // перемещаем даже несколько фишек
 	let x0 = check0[1]
 	let y0 = check0[2]
 
@@ -112,7 +113,7 @@ function checkWin() {
 }
 
 function shuffle() {
-	for (let i = 1; i < 5; i++) {
+	for (let i = 1; i < 700; i++) {
 		checkZero()
 		let rnd = Math.floor(Math.random() * 4 + 1)
 		if (rnd <= 1) {
